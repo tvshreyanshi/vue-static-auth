@@ -37,6 +37,9 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { useToast } from 'vue-toast-notification';
+
+const $toast = useToast();
 
 const registerData = ref({
   name: '',
@@ -46,13 +49,30 @@ const registerData = ref({
   mobileNo: '',
 });
 const registerUser = () => {
-  const register = {
-    name: registerData.value.name,
-    email: registerData.value.value,
-    address: registerData.value.value,
-    phone: registerData.value.phone,
-    password: registerData.value.password,
-  };
-  localStorage.setItem('registerUser', JSON.stringify([register]));
+  const data = localStorage.getItem('registerUser');
+  const userData = data ? JSON.parse(data) : [];
+  const emailExists = userData.some((user) => user.email === registerData.value.email);
+  if (emailExists) {
+    console.log('email is already taken');
+    $toast.error('email is already taken!', {
+      position: 'top-right',
+    });
+  } else {
+    const register = {
+      name: registerData.value.name,
+      email: registerData.value.email,
+      address: registerData.value.address,
+      phone: registerData.value.mobileNo,
+      password: registerData.value.password,
+    };
+    userData.push(register);
+    console.log('userdata', userData);
+    localStorage.setItem('registerUser', JSON.stringify(userData));
+    registerData.value.name = '';
+    registerData.value.email = '';
+    registerData.value.address = '';
+    registerData.value.mobileNo = '';
+    registerData.value.password = '';
+  }
 };
 </script>

@@ -24,12 +24,29 @@
   </div>
 </template>
 <script setup>
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 
+const router = useRouter();
 const loginData = ref({
   email: '',
   password: '',
 });
 const logInUser = () => {
+  const getUserInfo = localStorage.getItem('registerUser');
+  if (getUserInfo) {
+    const getInfo = JSON.parse(getUserInfo);
+    const matchUser = getInfo.find((user) => user.email === loginData.value.email && user.password === loginData.value.password);
+    if (matchUser) {
+      console.log('login successfull');
+      localStorage.setItem('useremail', loginData.value.email);
+      localStorage.setItem('authToken', 'aBcjbfdjsbscbjjhsdjsndsjd');
+      router.push({ path: '/' });
+    } else {
+      console.log('Invalid credential');
+    }
+  } else {
+    console.log('No register found, please register first');
+  }
 };
 </script>
