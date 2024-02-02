@@ -1,19 +1,19 @@
 <template>
-  <router-view></router-view>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
 
 export default {
   name: 'App',
-  components: {
-  },
 };
 </script>
 
 <style>
 #app {
-  background: #e0d6e9;
+  /* background: #e0d6e9; */
   font-family: "Asap", sans-serif;
   text-align: center;
 }

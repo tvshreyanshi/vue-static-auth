@@ -4,11 +4,12 @@ import LogIn from '../components/Auth/LogIn.vue';
 import RegisterUser from '../components/Auth/RegisterUser.vue';
 
 import MainLayout from '../components/Layout/MainLayout.vue';
+import DefaultLayout from '../components/Layout/DefaultLayout.vue';
 import Home from '../components/Home/HomeVue.vue';
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'landing',
     beforeEnter: authGaurd,
     redirect: '/home',
@@ -20,6 +21,11 @@ const routes = [
         component: Home,
       },
     ],
+  },
+  {
+    name: 'DefaultLayout',
+    path: '/',
+    component: DefaultLayout,
   },
   {
     name: 'LogIn',

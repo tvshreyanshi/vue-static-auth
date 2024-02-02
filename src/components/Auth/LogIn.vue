@@ -1,8 +1,8 @@
 <template>
-  <div class="max-w-xl mx-auto py-12 h-full ">
+  <div class="max-w-xl mx-auto py-40 h-[100%]">
     <div class="w-full p-5 border-1 rounded-md bg-white">
       <h2 class="text-2xl p-5">LogIn</h2>
-      <form class="max-w-sm mx-auto" @submit.prevent="logInUser">
+      <form class="max-w-full mx-auto" @submit.prevent="logInUser">
         <div class="mb-5">
           <!-- <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label> -->
           <input type="email" id="email" v-model="loginData.email" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your Email" required>
@@ -26,7 +26,9 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
+import { useToast } from 'vue-toast-notification';
 
+const $toast = useToast();
 const router = useRouter();
 const loginData = ref({
   email: '',
@@ -38,15 +40,21 @@ const logInUser = () => {
     const getInfo = JSON.parse(getUserInfo);
     const matchUser = getInfo.find((user) => user.email === loginData.value.email && user.password === loginData.value.password);
     if (matchUser) {
-      console.log('login successfull');
+      $toast.success('login successfull!', {
+        position: 'top-right',
+      });
       localStorage.setItem('useremail', loginData.value.email);
       localStorage.setItem('authToken', 'aBcjbfdjsbscbjjhsdjsndsjd');
-      router.push({ path: '/' });
+      router.push({ path: '/home' });
     } else {
-      console.log('Invalid credential');
+      $toast.error('Invalid credential!', {
+        position: 'top-right',
+      });
     }
   } else {
-    console.log('No register found, please register first');
+    $toast.info('No user found, please register first!', {
+      position: 'top-right',
+    });
   }
 };
 </script>
